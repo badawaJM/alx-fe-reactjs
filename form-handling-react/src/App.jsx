@@ -1,16 +1,17 @@
-import RecipeList from './components/RecipeList'
-import AddRecipeForm from './components/AddRecipeForm';
-
 import './App.css'
+import RegistrationForm from './components/RegistrationForm'
+function App() {
+ 
 
-const App = () => {
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
-      <h1>Recipe Sharing App</h1>
-      <AddRecipeForm />
-      <RecipeList />
-    </div>
-  );
-};
+    <>
+      <div>
+      < RegistrationForm/>
+        
+      </div>
+      
+    </>
+  )
+}
 
-export default App;
+export default App
