@@ -4,27 +4,27 @@ const fetchPosts = async () => {
   const response = await fetch('https://jsonplaceholder.typicode.com/posts');
 
   if (!response.ok) {
-    throw new Error('Erreur lors de la récupération des données');
+    throw new Error(`Erreur ${response.status} : ${response.statusText}`);
   }
 
-  return response.json(); 
+  return response.json();
 };
 
 const PostsComponent = () => {
-  const { data, isLoading, isError, refetch } = useQuery('posts', fetchPosts);
+  const { data, isLoading, isError, error, refetch } = useQuery('posts', fetchPosts);
 
   if (isLoading) {
-    return <p>Loding...</p>;
+    return <p>Chargement des données...</p>;
   }
 
   if (isError) {
-    return <p>Error loading data.</p>;
+    return <p>Erreur : {error.message}</p>;
   }
 
   return (
     <div>
-      <h1>List of Posts</h1>
-      <button onClick={refetch}>Reload data</button>
+      <h1>Liste des Posts</h1>
+      <button onClick={refetch}>Recharger les données</button>
       <ul>
         {data.map((post) => (
           <li key={post.id}>{post.title}</li>
