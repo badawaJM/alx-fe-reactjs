@@ -14,19 +14,21 @@ function App() {
         <Link to="/">Accueil</Link>
         <Link to="/profile">Profil</Link>
         <Link to="/about">À propos</Link>
-        <Link to="/blog/1">Blog Post 1</Link>
+        <Link to="/blog/1">Blog Post 1</Link> 
       </nav>
 
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         
+       
         <Route 
           path="/profile/*" 
           element={<ProtectedRoute element={<Profile />} isAuthenticated={isAuthenticated} />} 
         />
 
-        <Route path="/blog/:postId" element={<BlogPost />} />
+        
+        <Route path="/blog/:id" element={<BlogPost />} />
       </Routes>
     </Router>
   );
