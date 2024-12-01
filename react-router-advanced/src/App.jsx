@@ -4,7 +4,9 @@ import Profile from './components/Profile';
 import About from './components/About';
 import ProtectedRoute from './components/ProtectedRoute';
 import BlogPost from './components/BlogPost';
-const isAuthenticated = false;
+
+const isAuthenticated = false; 
+
 function App() {
   return (
     <Router>
@@ -12,17 +14,20 @@ function App() {
         <Link to="/">Accueil</Link>
         <Link to="/profile">Profil</Link>
         <Link to="/about">À propos</Link>
+        <Link to="/blog/1">Blog Post 1</Link>
       </nav>
-      <Routes>
-      <Route path="/blog/:postId" element={<BlogPost />} />
 
-        <Route path="/" element={<Home />} />
-        <Route path="/profile/*" element={<Profile />} />
-        <Route path="/about" element={<About />} />
-      </Routes>
       <Routes>
-  <Route path="/profile/*" element={<ProtectedRoute element={<Profile />} isAuthenticated={isAuthenticated} />} />
-</Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        
+        <Route 
+          path="/profile/*" 
+          element={<ProtectedRoute element={<Profile />} isAuthenticated={isAuthenticated} />} 
+        />
+
+        <Route path="/blog/:postId" element={<BlogPost />} />
+      </Routes>
     </Router>
   );
 }
