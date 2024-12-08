@@ -22,12 +22,12 @@ function RecipeDetail() {
   }
 
   return (
-    <div className="p-4 max-w-3xl mx-auto">
+    <div className="p-4 max-w-3xl mx-auto shadow-lg rounded-lg bg-white">
       <h1 className="text-2xl font-bold mb-4">{recipe.title}</h1>
       <img
         src={recipe.image}
         alt={recipe.title}
-        className="w-full h-64 object-cover rounded mb-4"
+        className="w-full h-64 object-cover rounded mb-4 shadow-md"
       />
       <p className="text-gray-700 mb-4">{recipe.summary}</p>
       <h2 className="text-xl font-bold mb-2">Ingredients</h2>
