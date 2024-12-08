@@ -3,22 +3,42 @@ import { useState } from 'react';
 function AddRecipeForm() {
   const [title, setTitle] = useState('');
   const [ingredients, setIngredients] = useState('');
-  const [steps, setSteps] = useState('');  // New state for steps
+  const [steps, setSteps] = useState('');
   const [image, setImage] = useState('');
+  const [errors, setErrors] = useState({});  // State to hold validation errors
+
+  // Validation function
+  const validate = () => {
+    const newErrors = {};
+    if (!title.trim()) newErrors.title = 'Title is required';
+    if (!ingredients.trim()) newErrors.ingredients = 'Ingredients are required';
+    if (!steps.trim()) newErrors.steps = 'Cooking steps are required';
+    if (!image.trim()) newErrors.image = 'Image URL is required';
+
+    return newErrors;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Validate the form fields
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);  // If there are errors, update the error state
+      return;  // Stop the submission process if there are validation errors
+    }
+
+    // Form is valid, create the new recipe
     const newRecipe = {
-      id: Date.now(),  // Using the current timestamp as a unique ID
+      id: Date.now(),
       title,
       ingredients: ingredients.split('\n'),
-      steps: steps.split('\n'),  // Store steps as an array by splitting at each new line
+      steps: steps.split('\n'),
       image,
     };
 
     console.log('New Recipe:', newRecipe);
-    // You can add functionality to save the recipe to a server or update state
+    // Optionally, you can add logic here to save the recipe to a server or state
   };
 
   return (
@@ -34,9 +54,9 @@ function AddRecipeForm() {
             id="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md"
-            required
+            className={`w-full p-2 border ${errors.title ? 'border-red-500' : 'border-gray-300'} rounded-md`}
           />
+          {errors.title && <p className="text-red-500 text-sm">{errors.title}</p>}
         </div>
 
         <div className="mb-4">
@@ -47,11 +67,11 @@ function AddRecipeForm() {
             id="ingredients"
             value={ingredients}
             onChange={(e) => setIngredients(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md"
+            className={`w-full p-2 border ${errors.ingredients ? 'border-red-500' : 'border-gray-300'} rounded-md`}
             rows="5"
             placeholder="List ingredients separated by line breaks."
-            required
           ></textarea>
+          {errors.ingredients && <p className="text-red-500 text-sm">{errors.ingredients}</p>}
         </div>
 
         <div className="mb-4">
@@ -62,11 +82,11 @@ function AddRecipeForm() {
             id="steps"
             value={steps}
             onChange={(e) => setSteps(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md"
+            className={`w-full p-2 border ${errors.steps ? 'border-red-500' : 'border-gray-300'} rounded-md`}
             rows="5"
             placeholder="Describe the cooking steps, separated by line breaks."
-            required
           ></textarea>
+          {errors.steps && <p className="text-red-500 text-sm">{errors.steps}</p>}
         </div>
 
         <div className="mb-4">
@@ -78,9 +98,9 @@ function AddRecipeForm() {
             id="image"
             value={image}
             onChange={(e) => setImage(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md"
-            required
+            className={`w-full p-2 border ${errors.image ? 'border-red-500' : 'border-gray-300'} rounded-md`}
           />
+          {errors.image && <p className="text-red-500 text-sm">{errors.image}</p>}
         </div>
 
         <div className="text-center">
