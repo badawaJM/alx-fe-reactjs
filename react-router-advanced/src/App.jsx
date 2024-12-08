@@ -5,7 +5,7 @@ import About from './components/About';
 import ProtectedRoute from './components/ProtectedRoute';
 import BlogPost from './components/BlogPost';
 
-const isAuthenticated = false; 
+const isAuthenticated = false; // Simulation de l'état d'authentification
 
 function App() {
   return (
