@@ -1,11 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';  // Import Link to navigate
 import recipesData from "../data.json";
-import { Link } from "react-router-dom";
 
 function HomePage() {
   const [recipes, setRecipes] = useState([]);
 
-  // Load data on component mount
   useEffect(() => {
     setRecipes(recipesData);
   }, []);
@@ -17,12 +16,21 @@ function HomePage() {
         <h1 className="text-4xl font-bold text-center mb-8 text-gray-800">
           Recipe Collection
         </h1>
+        
+        {/* Add Recipe Button - Navigating to the AddRecipeForm */}
+        <div className="text-center mb-6">
+          <Link to="/add-recipe">
+            <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+              Add New Recipe
+            </button>
+          </Link>
+        </div>
+
         {/* Responsive Grid Layout */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {recipes.map((recipe) => (
-            <Link
+            <div
               key={recipe.id}
-              to={`/recipe/${recipe.id}`} // Link to the recipe detail page
               className="bg-white rounded-lg shadow-md overflow-hidden transform transition-all duration-300 hover:shadow-lg hover:scale-105"
             >
               {/* Recipe Image */}
@@ -38,7 +46,7 @@ function HomePage() {
                 </h2>
                 <p className="text-gray-600">{recipe.summary}</p>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       </div>
