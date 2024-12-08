@@ -3,7 +3,7 @@ import { useState } from 'react';
 function AddRecipeForm() {
   const [title, setTitle] = useState('');
   const [ingredients, setIngredients] = useState('');
-  const [instructions, setInstructions] = useState('');
+  const [steps, setSteps] = useState('');  // New state for steps
   const [image, setImage] = useState('');
 
   const handleSubmit = (e) => {
@@ -13,7 +13,7 @@ function AddRecipeForm() {
       id: Date.now(),  // Using the current timestamp as a unique ID
       title,
       ingredients: ingredients.split('\n'),
-      instructions,
+      steps: steps.split('\n'),  // Store steps as an array by splitting at each new line
       image,
     };
 
@@ -55,15 +55,16 @@ function AddRecipeForm() {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="instructions" className="block text-sm font-semibold text-gray-700">
-            Cooking Instructions
+          <label htmlFor="steps" className="block text-sm font-semibold text-gray-700">
+            Cooking Steps
           </label>
           <textarea
-            id="instructions"
-            value={instructions}
-            onChange={(e) => setInstructions(e.target.value)}
+            id="steps"
+            value={steps}
+            onChange={(e) => setSteps(e.target.value)}
             className="w-full p-2 border border-gray-300 rounded-md"
             rows="5"
+            placeholder="Describe the cooking steps, separated by line breaks."
             required
           ></textarea>
         </div>
