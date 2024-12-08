@@ -1,22 +1,15 @@
-import { Outlet, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import HomePage from "./components/HomePage";
+import RecipeDetail from "./components/RecipeDetail";
 
 function App() {
   return (
-    <div>
-      <nav className="bg-gray-800 text-white p-4">
-        <ul className="flex gap-4">
-          <li>
-            <Link to="/" className="hover:text-blue-400">Home</Link>
-          </li>
-          <li>
-            <Link to="/about" className="hover:text-blue-400">About</Link>
-          </li>
-        </ul>
-      </nav>
-      <main className="p-4">
-        <Outlet />
-      </main>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/recipe/:id" element={<RecipeDetail />} />
+      </Routes>
+    </Router>
   );
 }
 
