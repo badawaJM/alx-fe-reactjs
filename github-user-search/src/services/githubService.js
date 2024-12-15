@@ -1,23 +1,32 @@
-import axios from 'axios';
+import axios from "axios";
 
+// Remplacez par l'URL de votre API GitHub si nécessaire
 const API_URL = 'https://api.github.com/search/users';
 
-// Fetch data based on username, location, and minRepos
-export const fetchUserData = async (username, location, minRepos) => {
+// Fonction de recherche d'utilisateurs GitHub avec des paramètres avancés
+export const searchGitHubUsers = async (username, location = '', minRepos = 0) => {
   try {
-    let query = `in:login ${username}`;
+    // Construction de la requête
+    let query = `q=${username}`;
+    
+    if (location) {
+      query += `+location:${location}`; // Ajouter la localisation si fournie
+    }
 
-    // Add location and minimum repositories to the query if they are provided
-    if (location) query += ` location:${location}`;
-    if (minRepos > 0) query += ` repos:>=${minRepos}`;
+    if (minRepos) {
+      query += `+repos:>=${minRepos}`; // Ajouter le nombre minimum de repositories si fourni
+    }
 
-    const response = await axios.get(API_URL, {
-      params: { q: query },
-    });
+    // Effectuer la requête API GitHub
+    const response = await axios.get(`${API_URL}?${query}`);
 
-    return response.data; // Return the search results
+    if (response.status !== 200) {
+      throw new Error('Failed to fetch users from GitHub');
+    }
+
+    return response.data.items; // Retourne la liste des utilisateurs
   } catch (error) {
-    console.error('Error fetching user data:', error);
+    console.error('Error fetching users:', error);
     throw error;
   }
 };
