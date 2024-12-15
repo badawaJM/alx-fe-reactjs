@@ -1,21 +1,36 @@
-const API_URL = 'https://api.github.com';
-const API_KEY =import.meta.env.REACT_APP_GITHUB_API_KEY; // Assurez-vous que cette variable est configurée dans .env
+import axios from 'axios';
 
-export const fetchGitHubData = async (endpoint) => {
+const API_URL = 'https://api.github.com';
+const API_KEY = import.meta.REACT_APP_GITHUB_API_KEY; // Assurez-vous de définir cette variable dans .env
+
+// Fonction pour obtenir les données d'un utilisateur GitHub
+export const fetchUserData = async (username) => {
   try {
-    const response = await fetch(`${API_URL}/${endpoint}`, {
+    const response = await axios.get(`${API_URL}/users/${username}`, {
       headers: {
-        Authorization: `token ${API_KEY}`, // Inclut le token si nécessaire
+        Authorization: `token ${API_KEY}`, // Utilisez le token si nécessaire
       },
     });
 
-    if (!response.ok) {
-      throw new Error(`GitHub API Error: ${response.statusText}`);
-    }
-
-    return await response.json();
+    return response.data; // Retourne les données de l'utilisateur
   } catch (error) {
-    console.error('Error fetching data from GitHub API:', error);
+    console.error('Error fetching user data:', error);
+    throw error;
+  }
+};
+
+// Autres méthodes API si nécessaires
+export const fetchUserRepos = async (username) => {
+  try {
+    const response = await axios.get(`${API_URL}/users/${username}/repos`, {
+      headers: {
+        Authorization: `token ${API_KEY}`,
+      },
+    });
+
+    return response.data; // Retourne les dépôts de l'utilisateur
+  } catch (error) {
+    console.error('Error fetching user repositories:', error);
     throw error;
   }
 };
