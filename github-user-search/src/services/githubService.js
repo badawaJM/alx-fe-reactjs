@@ -1,36 +1,23 @@
 import axios from 'axios';
 
-const API_URL = 'https://api.github.com';
-const API_KEY = import.meta.REACT_APP_GITHUB_API_KEY; // Assurez-vous de définir cette variable dans .env
+const API_URL = 'https://api.github.com/search/users';
 
-// Fonction pour obtenir les données d'un utilisateur GitHub
-export const fetchUserData = async (username) => {
+// Fetch data based on username, location, and minRepos
+export const fetchUserData = async (username, location, minRepos) => {
   try {
-    const response = await axios.get(`${API_URL}/users/${username}`, {
-      headers: {
-        Authorization: `token ${API_KEY}`, // Utilisez le token si nécessaire
-      },
+    let query = `in:login ${username}`;
+
+    // Add location and minimum repositories to the query if they are provided
+    if (location) query += ` location:${location}`;
+    if (minRepos > 0) query += ` repos:>=${minRepos}`;
+
+    const response = await axios.get(API_URL, {
+      params: { q: query },
     });
 
-    return response.data; // Retourne les données de l'utilisateur
+    return response.data; // Return the search results
   } catch (error) {
     console.error('Error fetching user data:', error);
-    throw error;
-  }
-};
-
-// Autres méthodes API si nécessaires
-export const fetchUserRepos = async (username) => {
-  try {
-    const response = await axios.get(`${API_URL}/users/${username}/repos`, {
-      headers: {
-        Authorization: `token ${API_KEY}`,
-      },
-    });
-
-    return response.data; // Retourne les dépôts de l'utilisateur
-  } catch (error) {
-    console.error('Error fetching user repositories:', error);
     throw error;
   }
 };
